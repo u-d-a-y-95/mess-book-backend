@@ -1,0 +1,19 @@
+{
+  "name": "mess-book-backend",
+  "version": "1.0.0",
+  "main": "./src/server.js",
+  "license": "MIT",
+  "scripts": {
+    "start":"nodemon -r esm ./src/server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "esm": "^3.2.25",
+    "express": "^4.18.1",
+    "mongoose": "^6.3.3",
+    "zod": "^3.16.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
