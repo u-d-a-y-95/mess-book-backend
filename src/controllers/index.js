@@ -1,7 +1,7 @@
-import UserController from "./user.controller";
+import User from "./user.controller";
 
 
 
 export default {
-  UserController,
+  User,
 };

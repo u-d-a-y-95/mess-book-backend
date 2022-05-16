@@ -6,6 +6,10 @@ dotenv.config()
 
 const app = express()
 
+// middleware config
+
+app.use(express.json())
+
 
 app.use("/api",apiRoute)
 
