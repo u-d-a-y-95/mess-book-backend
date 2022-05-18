@@ -5,7 +5,7 @@ export default function (schema){
             const data = await schema.parseAsync(req.body)
             next()
         } catch (error) {
-            next(JSON.stringify(error.flatten().fieldErrors))
+            next(error.flatten().fieldErrors)
         }
     }
   

@@ -6,9 +6,7 @@ import controller from "../controllers"
 const router = express.Router()
 
 
-router.get("/",(req,res)=>{
-    res.json({name:"uday"})
-})
+router.get("/",controller.User.getAllUsers)
 
 router.post("/",validatorMiddleware(dto.userDto.userCreateDto),controller.User.createUser)
 
