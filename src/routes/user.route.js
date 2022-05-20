@@ -1,5 +1,5 @@
 import express  from "express";
-import validatorMiddleware from "../services/middleware/validatorMiddleware";
+import payloadValidator from "../services/middleware/payloadValidator";
 import dto from "../dtos"
 import controller from "../controllers"
 
@@ -8,7 +8,11 @@ const router = express.Router()
 
 router.get("/",controller.User.getAllUsers)
 
-router.post("/",validatorMiddleware(dto.userDto.userCreateDto),controller.User.createUser)
+router.post("/",payloadValidator(dto.userDto.userCreateDto),controller.User.createUser)
+
+router.patch("/:id",payloadValidator(dto.userDto.userUpdateDto),controller.User.updateUserById)
+
+router.delete("/:id",controller.User.deleteUserById)
 
 
 export default router

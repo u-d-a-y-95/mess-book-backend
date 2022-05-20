@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import cors from "cors"
 
 import apiRoute from "./routes";
 import errorMiddleware from "./services/middleware/errorMiddleware";
@@ -10,11 +11,21 @@ dotenv.config();
 const app = express();
 
 
+// cors implement
+
+app.use(cors())
+
 // mongoose connection
 
-mongoose.connect(`mongodb+srv://tuna:tuni@development.evb9k.mongodb.net/messbook?retryWrites=true&w=majority`,()=>{
-    console.log("mongoose is connected with database")
-})
+mongoose.connect(
+  `mongodb+srv://tuna:tuni@development.evb9k.mongodb.net/messbook?retryWrites=true&w=majority`,
+  {
+    autoIndex: true, //make this also true
+  },
+  () => {
+    console.log("mongoose is connected with database");
+  }
+);
 
 // middleware config
 
