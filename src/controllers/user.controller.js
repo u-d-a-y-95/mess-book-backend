@@ -1,5 +1,6 @@
 import models from "../models";
 import { getBcryptValue } from "../services/utils/bcrypt";
+import CustomError from "../services/utils/CustomError";
 class UserController {
   async createUser(req, res, next) {
     try {
@@ -10,7 +11,8 @@ class UserController {
       const { password, ...rest } = newUser._doc;
       res.status(201).json(rest);
     } catch (error) {
-      return next(error);
+      console.log(error)
+      return next(CustomError.InternalServerError(error));
     }
   }
   async getAllUsers(req, res, next) {

@@ -4,7 +4,7 @@ const userCreateDto = zod
   .object({
     name: zod.string("required").min(4, "At least 4 characters are required"),
     email: zod.string().email().optional(),
-    mobile: zod.string().min(11),
+    mobile: zod.string().min(11,"Valid mobile number is required"),
     gender: zod.object(
       {
         value: zod.number().int().positive(),
@@ -31,7 +31,7 @@ const userUpdateDto = zod
   .object({
     name: zod.string("required").min(4, "At least 4 characters are required"),
     email: zod.string().email().optional(),
-    mobile: zod.string().min(11),
+    mobile: zod.string().min(11,"Valid mobile number is required"),
     gender: zod.object(
       {
         value: zod.number().int().positive(),
