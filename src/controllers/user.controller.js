@@ -22,9 +22,9 @@ class UserController {
     } catch (error) {}
   }
 
-  async deleteUserById(req, res, next) {
+  async getUserById(req, res, next) {
     try {
-      const result = await models.User.deleteOne({ _id: req.params.id });
+      const result = await models.User.findById({ _id: req.params.id }).select({password:0});
       res.status(200).json(result);
     } catch (error) {
       next(error);
