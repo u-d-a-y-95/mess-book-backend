@@ -8,6 +8,8 @@ const router = express.Router()
 
 router.get("/",controller.User.getAllUsers)
 
+router.get("/ddl",controller.User.getAllUsersDDL)
+
 router.get("/:id",controller.User.getUserById)
 
 router.post("/",payloadValidator(dto.userDto.userCreateDto),controller.User.createUser)
@@ -15,6 +17,7 @@ router.post("/",payloadValidator(dto.userDto.userCreateDto),controller.User.crea
 router.patch("/:id",payloadValidator(dto.userDto.userUpdateDto),controller.User.updateUserById)
 
 router.delete("/:id",controller.User.deleteUserById)
+
 
 
 export default router

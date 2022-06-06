@@ -11,7 +11,7 @@ class UserController {
       const { password, ...rest } = newUser._doc;
       res.status(201).json(rest);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return next(CustomError.InternalServerError(error));
     }
   }
@@ -21,10 +21,23 @@ class UserController {
       res.status(200).json(result);
     } catch (error) {}
   }
+  async getAllUsersDDL(req, res, next) {
+    try {
+      const result = await models.User.find().select({ _id: 1, name: 1 });
+      res.status(200).json(
+        result.map((item) => ({
+          value: item._id,
+          label: item.name,
+        }))
+      );
+    } catch (error) {}
+  }
 
   async getUserById(req, res, next) {
     try {
-      const result = await models.User.findById({ _id: req.params.id }).select({password:0});
+      const result = await models.User.findById({ _id: req.params.id }).select({
+        password: 0,
+      });
       res.status(200).json(result);
     } catch (error) {
       next(error);
@@ -33,8 +46,12 @@ class UserController {
 
   async updateUserById(req, res, next) {
     try {
-      const result = await models.User.findByIdAndUpdate(req.params.id, req.body,{new:true});
-      const {password,...rest} = result._doc
+      const result = await models.User.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true }
+      );
+      const { password, ...rest } = result._doc;
       res.status(200).json(rest);
     } catch (error) {
       next(error);
