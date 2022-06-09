@@ -45,9 +45,20 @@ class MealController {
         .flat();
       // console.log(models.Meal.bulkSave)
       const m = await models.Meal.insertMany(meals);
-      res.json(m);
+
+      const expenses = [];
+      for (let i = 0; i <= diff; i++) {
+        expenses.push({
+          date: moment(pipeline.startDate).add(i, "d"),
+          expense: 0,
+          pipeline: pipeline._id,
+        });
+      }
+      const e = await models.Expenses.insertMany(expenses);
       pipeline.meals = m.map((item) => item._id);
+      pipeline.expenses = e.map((item) => item._id);
       await pipeline.save();
+      res.json(pipeline);
     } catch (error) {
       console.log(error);
       res.json(error);
@@ -62,31 +73,41 @@ class MealController {
       const deletedMeals = await models.Meal.deleteMany({
         pipeline: deletedPipeline._id,
       });
+      const deletedExpenses = await models.Meal.deleteMany({
+        pipeline: deletedPipeline._id,
+      });
       res.json({
         pipeline: deletedPipeline,
         meals: deletedMeals,
+        expenses: deletedExpenses,
       });
     } catch (error) {}
   }
 
   async getPipelineById(req, res, next) {
     try {
-      const result = await models.Pipeline.findById(req.params.id).populate({
-        path: "meals",
-        model: "Meals",
-        populate: {
-          path: "user",
+      const result = await models.Pipeline.findById(req.params.id)
+        .populate({
+          path: "meals",
+          model: "Meals",
+          populate: {
+            path: "user",
+            model: "Users",
+            select: { password: 0 },
+          },
+        })
+        .populate({
+          path: "users",
           model: "Users",
-          select: { 'password': 0},
-        },
-      }).populate({
-        path:"users",
-        model:"Users",
-        populate:{
-          path:"user",
-          model:"Users"
-        }
-      });
+          populate: {
+            path: "user",
+            model: "Users",
+          },
+        })
+        .populate({
+          path: "expenses",
+          model: "Expenses",
+        });
       res.status(200).json(result);
     } catch (error) {
       res.json(error);

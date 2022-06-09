@@ -28,6 +28,12 @@ const pipelineSchema = new mongoose.Schema({
           type:mongoose.Types.ObjectId,
           ref:"Meals"
       }
+  ],
+  expenses:[
+     {
+          type:mongoose.Types.ObjectId,
+          ref:"Expenses"
+      }
   ]
 });
 
