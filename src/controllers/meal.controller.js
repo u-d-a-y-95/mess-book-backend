@@ -54,18 +54,43 @@ class MealController {
     }
   }
 
-  async deletePipeLineById(req,res,nex){
+  async deletePipeLineById(req, res, nex) {
     try {
-      const deletedPipeline = await models.Pipeline.findByIdAndDelete(req.params.id)
-      const deletedMeals = await models.Meal.deleteMany({pipeline:deletedPipeline._id})
+      const deletedPipeline = await models.Pipeline.findByIdAndDelete(
+        req.params.id
+      );
+      const deletedMeals = await models.Meal.deleteMany({
+        pipeline: deletedPipeline._id,
+      });
       res.json({
-        pipeline:deletedPipeline,
-        meals:deletedMeals
-      })
+        pipeline: deletedPipeline,
+        meals: deletedMeals,
+      });
+    } catch (error) {}
+  }
+
+  async getPipelineById(req, res, next) {
+    try {
+      const result = await models.Pipeline.findById(req.params.id).populate({
+        path: "meals",
+        model: "Meals",
+        populate: {
+          path: "user",
+          model: "Users",
+          select: { 'password': 0},
+        },
+      }).populate({
+        path:"users",
+        model:"Users",
+        populate:{
+          path:"user",
+          model:"Users"
+        }
+      });
+      res.status(200).json(result);
     } catch (error) {
-      
+      res.json(error);
     }
-   
   }
 }
 
