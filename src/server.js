@@ -1,21 +1,10 @@
-import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import cors from "cors"
-
-import apiRoute from "./routes";
-import errorMiddleware from "./services/middleware/errorMiddleware";
+import http from "http";
+import app from "./app";
+const { Server } = require("socket.io");
 
 dotenv.config();
-
-const app = express();
-
-
-// cors implement
-
-app.use(cors())
-
-// mongoose connection
 
 mongoose.connect(
   `mongodb+srv://tuna:tuni@development.evb9k.mongodb.net/messbook?retryWrites=true&w=majority`,
@@ -27,16 +16,22 @@ mongoose.connect(
   }
 );
 
-// middleware config
+const server = http.createServer(app);
 
-app.use(express.json());
-
-app.use("/api", apiRoute);
-
-// error middleware
-
-app.use(errorMiddleware);
-
-app.listen(process.env.APP_PORT || 4000, () => {
+server.listen(process.env.APP_PORT || 4000, () => {
   console.log("server is running");
+});
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("a user connected");
+  socket.on("changeMeal",value=>{
+    console.log(value)
+  })
 });
