@@ -1,6 +1,6 @@
 import express from "express";
 import apiRoute from "./routes";
-import errorMiddleware from "./services/middleware/errorMiddleware";
+import errorMiddleware from "./middleware/errorMiddleware";
 import cors from "cors"
 
 const app = express();

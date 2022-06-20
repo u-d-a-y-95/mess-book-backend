@@ -1,6 +1,6 @@
 import models from "../models";
-import { getBcryptValue } from "../services/utils/bcrypt";
-import CustomError from "../services/utils/CustomError";
+import { getBcryptValue } from "../utils/bcrypt";
+import CustomError from "../utils/CustomError";
 class UserController {
   async createUser(req, res, next) {
     try {

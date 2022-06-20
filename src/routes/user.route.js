@@ -1,5 +1,5 @@
 import express  from "express";
-import payloadValidator from "../services/middleware/payloadValidator";
+import payloadValidator from "../middleware/payloadValidator";
 import dto from "../dtos"
 import controller from "../controllers"
 
