@@ -21,6 +21,19 @@ class MealService {
     );
     return data;
   };
+
+  changeExpense = async ({ _id, pipeline, expense }) => {
+    const result = await models.Expenses.findByIdAndUpdate(
+      _id,
+      {
+        expense,
+      },
+      {
+        new: true,
+      }
+    );
+    return result;
+  };
 }
 
 export default new MealService();

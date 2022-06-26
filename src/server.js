@@ -58,4 +58,12 @@ io.on("connection", (socket) => {
       updatedData: result,
     });
   });
+  socket.on("changeExpense", async (value) => {
+    const result = await services.Meal.changeExpense(value);
+    const obj = {
+      ...result._doc,
+      index: value.index,
+    };
+    socket.broadcast.emit("changeExpenseClient", obj);
+  });
 });
