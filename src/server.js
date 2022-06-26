@@ -42,7 +42,7 @@ io.on("connection", (socket) => {
       });
     } catch (error) {}
   });
-  socket.on("changeUserDepositAmount", async (value) => {
+  socket.on("changeUser", async (value) => {
     const {
       pipelineId,
       user: { _id: userId },
@@ -53,7 +53,7 @@ io.on("connection", (socket) => {
       userId,
       newAmount
     );
-    socket.broadcast.emit("changeUserDepositAmountClient", {
+    socket.broadcast.emit("changeUserClient", {
       ...value,
       updatedData: result,
     });

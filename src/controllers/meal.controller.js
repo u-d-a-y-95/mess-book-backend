@@ -73,7 +73,7 @@ class MealController {
       const deletedMeals = await models.Meal.deleteMany({
         pipeline: deletedPipeline._id,
       });
-      const deletedExpenses = await models.Meal.deleteMany({
+      const deletedExpenses = await models.Expenses.deleteMany({
         pipeline: deletedPipeline._id,
       });
       res.json({
