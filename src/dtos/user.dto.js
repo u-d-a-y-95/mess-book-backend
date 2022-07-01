@@ -3,6 +3,7 @@ import * as zod from "zod";
 const userCreateDto = zod
   .object({
     name: zod.string("required").min(4, "At least 4 characters are required"),
+    displayName: zod.string().optional(),
     email: zod.string().email().optional(),
     mobile: zod.string().min(11,"Valid mobile number is required"),
     gender: zod.object(
@@ -25,11 +26,13 @@ const userCreateDto = zod
     mobile: obj.mobile,
     gender: obj.gender,
     password: obj.password,
+    displayName: obj.displayName,
   }));
 
 const userUpdateDto = zod
   .object({
     name: zod.string("required").min(4, "At least 4 characters are required"),
+    displayName: zod.string().optional(),
     email: zod.string().email().optional(),
     mobile: zod.string().min(11,"Valid mobile number is required"),
     gender: zod.object(
@@ -45,6 +48,7 @@ const userUpdateDto = zod
     email: obj.email,
     mobile: obj.mobile,
     gender: obj.gender,
+    displayName: obj.displayName,
   }));
 
 export default {
