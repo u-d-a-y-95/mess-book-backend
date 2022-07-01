@@ -12,9 +12,9 @@ router.get("/ddl",controller.User.getAllUsersDDL)
 
 router.get("/:id",controller.User.getUserById)
 
-router.post("/",payloadValidator(dto.userDto.userCreateDto),controller.User.createUser)
+router.post("/",payloadValidator(dto.User.userCreateDto),controller.User.createUser)
 
-router.patch("/:id",payloadValidator(dto.userDto.userUpdateDto),controller.User.updateUserById)
+router.patch("/:id",payloadValidator(dto.User.userUpdateDto),controller.User.updateUserById)
 
 router.delete("/:id",controller.User.deleteUserById)
 

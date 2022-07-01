@@ -35,6 +35,14 @@ class User {
     } catch (error) {}
   }
 
+  async getUserByMobile(mobile) {
+    try {
+      return models.User.findOne({
+        mobile,
+      });
+    } catch (error) {}
+  }
+
   async updateUserById(id, data) {
     try {
       return models.User.findByIdAndUpdate(id, data, {
