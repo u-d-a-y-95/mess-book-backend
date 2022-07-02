@@ -11,6 +11,9 @@ class CustomError extends Error {
   static InternalServerError(error) {
     return new CustomError(500, "Internal Server Error", error);
   }
+  static UnauthorizedError() {
+    return new CustomError(401, "Unauthorized");
+  }
 }
 
 

@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import http from "http";
 import app from "./app";
-import services from "./services";
+import socketOnConnection from "./socket";
 const { Server } = require("socket.io");
 
 dotenv.config();
@@ -30,40 +30,4 @@ const io = new Server(server, {
   },
 });
 
-io.on("connection", (socket) => {
-  socket.on("changeMeal", async (value) => {
-    try {
-      const result = await services.Meal.changeMeal(value.mealObj._id, {
-        noOfMeal: value.meal,
-      });
-      socket.broadcast.emit("changeMealClient", {
-        ...value,
-        updatedData: result,
-      });
-    } catch (error) {}
-  });
-  socket.on("changeUser", async (value) => {
-    const {
-      pipelineId,
-      user: { _id: userId },
-      newAmount,
-    } = value;
-    const result = await services.Meal.changeUserDepositAmount(
-      pipelineId,
-      userId,
-      newAmount
-    );
-    socket.broadcast.emit("changeUserClient", {
-      ...value,
-      updatedData: result,
-    });
-  });
-  socket.on("changeExpense", async (value) => {
-    const result = await services.Meal.changeExpense(value);
-    const obj = {
-      ...result._doc,
-      index: value.index,
-    };
-    socket.broadcast.emit("changeExpenseClient", obj);
-  });
-});
+io.on("connection", socketOnConnection);
