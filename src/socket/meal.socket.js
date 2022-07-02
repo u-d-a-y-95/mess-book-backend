@@ -1,4 +1,4 @@
-import services from "../services";
+import services from '../services';
 
 class Meal {
   async changeMeal(value) {
@@ -7,12 +7,13 @@ class Meal {
       const result = await services.Meal.changeMeal(value.mealObj._id, {
         noOfMeal: value.meal,
       });
-      this.broadcast.emit("changeMealClient", {
+      socket.broadcast.emit('changeMealClient', {
         ...value,
         updatedData: result,
       });
     } catch (error) {}
   }
+
   async changeUser(value) {
     const socket = this;
     const {
@@ -25,11 +26,12 @@ class Meal {
       userId,
       newAmount
     );
-    socket.broadcast.emit("changeUserClient", {
+    socket.broadcast.emit('changeUserClient', {
       ...value,
       updatedData: result,
     });
   }
+
   async changeExpense(value) {
     const socket = this;
     const result = await services.Meal.changeExpense(value);
@@ -37,7 +39,7 @@ class Meal {
       ...result._doc,
       index: value.index,
     };
-    socket.broadcast.emit("changeExpenseClient", obj);
+    socket.broadcast.emit('changeExpenseClient', obj);
   }
 }
 export default new Meal();

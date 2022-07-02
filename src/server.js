@@ -1,20 +1,18 @@
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import http from "http";
+import { Server } from "socket.io";
 import app from "./app";
 import socketOnConnection from "./socket";
-const { Server } = require("socket.io");
 
 dotenv.config();
 
 mongoose.connect(
-  `mongodb+srv://tuna:tuni@development.evb9k.mongodb.net/messbook?retryWrites=true&w=majority`,
+  process.env.DB_CONNECTION_STRING,
   {
-    autoIndex: true, //make this also true
+    autoIndex: true,
   },
-  () => {
-    console.log("mongoose is connected with database");
-  }
+  () => {}
 );
 
 const server = http.createServer(app);
