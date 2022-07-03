@@ -22,7 +22,7 @@ class UserController {
   }
   async getAllUsersDDL(req, res, next) {
     try {
-      const result = await models.User.find().select({ _id: 1, name: 1 });
+      const result = await services.User.getAllUsersDDL();
       res.status(200).json(
         result.map((item) => ({
           value: item._id,

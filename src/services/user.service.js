@@ -17,15 +17,9 @@ class User {
       return result;
     } catch (error) {}
   }
-  async getAllUsersDDL(req, res, next) {
+  async getAllUsersDDL() {
     try {
-      const result = await models.User.find().select({ _id: 1, name: 1 });
-      res.status(200).json(
-        result.map((item) => ({
-          value: item._id,
-          label: item.name,
-        }))
-      );
+      return models.User.find().select({ _id: 1, name: 1 });
     } catch (error) {}
   }
 
