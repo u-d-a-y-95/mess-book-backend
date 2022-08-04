@@ -7,8 +7,6 @@ class User {
       const newUser = new models.User(user);
       return newUser.save();
     } catch (error) {
-      //   console.log(error);
-      //   return next(CustomError.InternalServerError(error));
     }
   }
   async getAllUsers(req, res, next) {

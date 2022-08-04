@@ -35,6 +35,6 @@ const pipelineSchema = new mongoose.Schema({
           ref:"Expenses"
       }
   ]
-});
+},{timestamps:true});
 
 export default mongoose.model("Pipelines", pipelineSchema);

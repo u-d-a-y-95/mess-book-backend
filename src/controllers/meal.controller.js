@@ -5,7 +5,9 @@ class MealController {
   constructor() {}
   async getPipeline(req, res, next) {
     try {
-      const result = await models.Pipeline.find().populate("meals");
+      const result = await models.Pipeline.find()
+        .sort({ createdAt: -1 })
+        .populate("meals");
       res.json(
         result.map((line) => ({
           id: line._id,
@@ -16,7 +18,6 @@ class MealController {
         }))
       );
     } catch (error) {
-      console.log(error);
       res.json(error);
     }
   }
@@ -43,7 +44,6 @@ class MealController {
           return userMeals;
         })
         .flat();
-      // console.log(models.Meal.bulkSave)
       const m = await models.Meal.insertMany(meals);
 
       const expenses = [];
@@ -60,7 +60,6 @@ class MealController {
       await pipeline.save();
       res.json(pipeline);
     } catch (error) {
-      console.log(error);
       res.json(error);
     }
   }

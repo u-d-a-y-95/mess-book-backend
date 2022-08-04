@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 11,
-    unique:true,
+    unique: true,
   },
   gender: {
     value: Number,
@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false,
   },
 });
 

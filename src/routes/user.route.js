@@ -16,6 +16,8 @@ router.post("/",payloadValidator(dto.User.userCreateDto),controller.User.createU
 
 router.patch("/:id",payloadValidator(dto.User.userUpdateDto),controller.User.updateUserById)
 
+router.patch("/admin/:id",controller.User.setAdminById)
+
 router.delete("/:id",controller.User.deleteUserById)
 
 
