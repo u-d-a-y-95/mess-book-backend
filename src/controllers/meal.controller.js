@@ -64,6 +64,25 @@ class MealController {
     }
   }
 
+  async updatePipeLineById(req, res, nex) {
+    try {
+      const deletedPipeline = await models.Pipeline.findByIdAndDelete(
+        req.params.id
+      );
+      const deletedMeals = await models.Meal.deleteMany({
+        pipeline: deletedPipeline._id,
+      });
+      const deletedExpenses = await models.Expenses.deleteMany({
+        pipeline: deletedPipeline._id,
+      });
+      res.json({
+        pipeline: deletedPipeline,
+        meals: deletedMeals,
+        expenses: deletedExpenses,
+      });
+    } catch (error) {}
+  }
+  
   async deletePipeLineById(req, res, nex) {
     try {
       const deletedPipeline = await models.Pipeline.findByIdAndDelete(

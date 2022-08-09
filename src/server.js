@@ -22,7 +22,7 @@ server.listen(process.env.PORT || 4000, () => {
 });
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_BASE_URL || "http://localhost:5000",
+    origin: process.env.CLIENT_BASE_URL || "*",
     methods: ["GET", "POST"],
   },
 });
