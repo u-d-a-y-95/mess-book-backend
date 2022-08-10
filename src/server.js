@@ -8,7 +8,9 @@ import socketOnConnection from "./socket";
 dotenv.config();
 
 mongoose.connect(
-  process.env.DB_CONNECTION_STRING,
+  process.env.MODE === "DEV"
+    ? process.env.DB_CONNECTION_STRING_LOCAL
+    : process.env.DB_CONNECTION_STRING,
   {
     autoIndex: true,
   },

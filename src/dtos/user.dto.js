@@ -2,10 +2,11 @@ import * as zod from "zod";
 
 const userCreateDto = zod
   .object({
+    accountId: zod.string().min(1),
     name: zod.string("required").min(4, "At least 4 characters are required"),
     displayName: zod.string().optional(),
     email: zod.string().email().optional(),
-    mobile: zod.string().min(11,"Valid mobile number is required"),
+    mobile: zod.string().min(11, "Valid mobile number is required"),
     gender: zod.object(
       {
         value: zod.number().int().positive(),
@@ -22,6 +23,7 @@ const userCreateDto = zod
   })
   .transform((obj) => ({
     name: obj.name,
+    accountId: obj.accountId,
     email: obj.email,
     mobile: obj.mobile,
     gender: obj.gender,
@@ -34,7 +36,7 @@ const userUpdateDto = zod
     name: zod.string("required").min(4, "At least 4 characters are required"),
     displayName: zod.string().optional(),
     email: zod.string().email().optional(),
-    mobile: zod.string().min(11,"Valid mobile number is required"),
+    mobile: zod.string().min(11, "Valid mobile number is required"),
     gender: zod.object(
       {
         value: zod.number().int().positive(),
@@ -46,12 +48,12 @@ const userUpdateDto = zod
   .transform((obj) => ({
     name: obj.name,
     email: obj.email,
-    mobile: obj.mobile,
     gender: obj.gender,
+    mobile: obj.mobile,
     displayName: obj.displayName,
   }));
 
 export default {
   userCreateDto,
-  userUpdateDto
+  userUpdateDto,
 };

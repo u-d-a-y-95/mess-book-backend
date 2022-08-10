@@ -4,11 +4,15 @@ import CustomError from "../utils/CustomError";
 class UserController {
   async createUser(req, res, next) {
     try {
-      const hashedPassword = await getBcryptValue(req.body.password);
-      req.body.password = hashedPassword;
-      const newUser = await services.User.createUser(req.body);
-      const { password, ...rest } = newUser._doc;
-      res.status(201).json(rest);
+      const { password, ...rest } = req.body;
+      const hashedPassword = await getBcryptValue(password);
+      const newUser = await services.User.createUser({
+        password: hashedPassword,
+        role: "GENERAL",
+        ...rest,
+      });
+      const { password: _password, ...newRest } = newUser._doc;
+      res.status(201).json(newRest);
     } catch (error) {
       return next(CustomError.InternalServerError(error));
     }

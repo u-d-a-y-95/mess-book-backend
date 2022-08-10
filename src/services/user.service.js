@@ -11,7 +11,7 @@ class User {
   }
   async getAllUsers(req, res, next) {
     try {
-      const result = await models.User.find().select({ password: 0 });
+      const result = await models.User.find().select({ password: 0 }).sort({createdAt:-1});
       return result;
     } catch (error) {}
   }
@@ -27,11 +27,9 @@ class User {
     } catch (error) {}
   }
 
-  async getUserByMobile(mobile) {
+  async getUserByFilter(filter) {
     try {
-      return models.User.findOne({
-        mobile,
-      });
+      return models.User.findOne(filter);
     } catch (error) {}
   }
 

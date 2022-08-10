@@ -1,12 +1,19 @@
-import express  from "express";
+import express from "express";
 import payloadValidator from "../middleware/payloadValidator";
-import dto from "../dtos"
-import controller from "../controllers"
+import dto from "../dtos";
+import controller from "../controllers";
 
-const router = express.Router()
+const router = express.Router();
 
+router.post(
+  "/login",
+  payloadValidator(dto.Auth.loginDto),
+  controller.Auth.loginUser
+);
+router.post(
+  "/signup",
+  payloadValidator(dto.Auth.signupDto),
+  controller.Auth.signupUser
+);
 
-router.post("/login",payloadValidator(dto.Auth.loginDto),controller.Auth.loginUser)
-
-
-export default router
+export default router;
