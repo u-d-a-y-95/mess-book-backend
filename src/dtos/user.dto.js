@@ -2,7 +2,6 @@ import * as zod from "zod";
 
 const userCreateDto = zod
   .object({
-    accountId: zod.string().min(1),
     name: zod.string("required").min(4, "At least 4 characters are required"),
     displayName: zod.string().optional(),
     email: zod.string().email().optional(),
@@ -23,7 +22,6 @@ const userCreateDto = zod
   })
   .transform((obj) => ({
     name: obj.name,
-    accountId: obj.accountId,
     email: obj.email,
     mobile: obj.mobile,
     gender: obj.gender,

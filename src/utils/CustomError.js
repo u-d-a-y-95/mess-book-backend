@@ -2,7 +2,8 @@ class CustomError extends Error {
   constructor(status, message, data) {
     super();
     this.status = status;
-    (this.message = message), (this.data = data);
+    this.message = message;
+    this.data = data;
   }
 
   static ValidationError(error) {
@@ -14,7 +15,9 @@ class CustomError extends Error {
   static UnauthorizedError() {
     return new CustomError(401, "Unauthorized");
   }
+  static NotFoundError() {
+    return new CustomError(404, "Page Not found");
+  }
 }
 
-
-export default CustomError
+export default CustomError;
