@@ -1,10 +1,10 @@
 import models from "../models";
 import CRUD from "./crud.service";
 
-class Account extends CRUD {
+class Expense extends CRUD {
   constructor() {
-    super(models.Account);
+    super(models.Expenses);
   }
 }
 
-export default new Account();
+export default new Expense()

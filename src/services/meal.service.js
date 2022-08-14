@@ -1,6 +1,12 @@
 import models from "../models";
+import CRUD from "./crud.service";
 
-class MealService {
+class MealService extends CRUD {
+
+  constructor(){
+    super(models.Meal)
+  }
+
   changeMeal = async (id, updateValue) => {
     const updatedData = await models.Meal.findByIdAndUpdate(id, updateValue, {
       new: true,

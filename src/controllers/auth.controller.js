@@ -6,13 +6,13 @@ class AuthController {
   async loginUser(req, res, next) {
     try {
       const { email, mobile, password } = req.body;
-      const account = await services.Account.getAccountByfilter({
+      const account = await services.Account.getOne({
         email,
       });
       if (!account) {
         return next(CustomError.UnauthorizedError());
       }
-      const user = await services.User.getUserByFilter({
+      const user = await services.User.getOne({
         accountId: account._id,
         mobile,
       });
@@ -36,12 +36,12 @@ class AuthController {
   async signupUser(req, res, next) {
     try {
       const { workSpaceName, workSpaceEmail, password, ...rest } = req.body;
-      const account = await services.Account.createAccount({
+      const account = await services.Account.createOne({
         name: workSpaceName,
         email: workSpaceEmail,
       });
       const hashedPassword = await getBcryptValue(password);
-      const user = await services.User.createUser({
+      const user = await services.User.createOne({
         accountId: account._id,
         password: hashedPassword,
         role: "ADMIN",

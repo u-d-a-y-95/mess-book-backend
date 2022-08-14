@@ -1,5 +1,6 @@
 import moment from "moment";
 import models from "../models";
+import services from "../services";
 
 class MealController {
   constructor() {}
@@ -23,8 +24,11 @@ class MealController {
   }
   async createPipeLine(req, res, next) {
     try {
-      const pipeline = new models.Pipeline(req.body);
-      await pipeline.save();
+      const { accountId } = req.user;
+      const pipeline = await services.Pipeline.createOne({
+        accountId,
+        ...req.body,
+      });
 
       const startDate = moment(pipeline.startDate);
       const endDate = moment(pipeline.endDate);
@@ -44,8 +48,7 @@ class MealController {
           return userMeals;
         })
         .flat();
-      const m = await models.Meal.insertMany(meals);
-
+      const m = await services.Meal.create(meals);
       const expenses = [];
       for (let i = 0; i <= diff; i++) {
         expenses.push({
@@ -54,7 +57,7 @@ class MealController {
           pipeline: pipeline._id,
         });
       }
-      const e = await models.Expenses.insertMany(expenses);
+      const e = await services.Expense.create(expenses);
       pipeline.meals = m.map((item) => item._id);
       pipeline.expenses = e.map((item) => item._id);
       await pipeline.save();
@@ -82,7 +85,7 @@ class MealController {
       });
     } catch (error) {}
   }
-  
+
   async deletePipeLineById(req, res, nex) {
     try {
       const deletedPipeline = await models.Pipeline.findByIdAndDelete(
@@ -104,33 +107,47 @@ class MealController {
 
   async getPipelineById(req, res, next) {
     try {
-      const result = await models.Pipeline.findById(req.params.id)
-        .populate({
-          path: "meals",
-          model: "Meals",
-          populate: {
-            path: "user",
-            model: "Users",
-            select: { password: 0 },
-          },
-        })
-        .populate({
-          path: "users",
-          model: "Users",
-          populate: {
-            path: "user",
-            model: "Users",
-          },
-        })
-        .populate({
-          path: "expenses",
-          model: "Expenses",
-        });
+      const { accountId } = req.user;
+      const { id: _id } = req.params;
+      const result = await services.Pipeline.getPipelineById({
+        accountId,
+        _id,
+      });
+
       res.status(200).json(result);
     } catch (error) {
       res.json(error);
     }
   }
+  // async getPipelineById(req, res, next) {
+  //   try {
+  //     const result = await models.Pipeline.findById(req.params.id)
+  //       .populate({
+  //         path: "meals",
+  //         model: "Meals",
+  //         populate: {
+  //           path: "user",
+  //           model: "Users",
+  //           select: { password: 0 },
+  //         },
+  //       })
+  //       .populate({
+  //         path: "users",
+  //         model: "Users",
+  //         populate: {
+  //           path: "user",
+  //           model: "Users",
+  //         },
+  //       })
+  //       .populate({
+  //         path: "expenses",
+  //         model: "Expenses",
+  //       });
+  //     res.status(200).json(result);
+  //   } catch (error) {
+  //     res.json(error);
+  //   }
+  // }
 }
 
 export default new MealController();

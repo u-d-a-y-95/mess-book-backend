@@ -10,6 +10,14 @@ class CRUD {
     this.model = model;
   }
 
+  //create
+  async create(objs) {
+    try {
+      return this.model.insertMany(objs);
+    } catch (error) {
+      console.error(error);
+    }
+  }
   async createOne(obj) {
     try {
       const newObj = new this.model(obj);
