@@ -67,26 +67,29 @@ class MealController {
     }
   }
 
-  async updatePipeLineById(req, res, nex) {
+  async updatePipeLineById(req, res, next) {
     try {
-      const deletedPipeline = await models.Pipeline.findByIdAndDelete(
-        req.params.id
+      const { accountId } = req.user;
+      const { id: _id } = req.params;
+      const newUsers = req.body.users
+        .filter((user) => !user._id)
+        .map((item) => ({
+          user: item.user.value,
+          initialBalance: item.initialBalance,
+          depositAmount: 0,
+        }));
+      const updatedPipeline = await services.Pipeline.updatePipeLineById(
+        { accountId, _id },
+        newUsers
       );
-      const deletedMeals = await models.Meal.deleteMany({
-        pipeline: deletedPipeline._id,
-      });
-      const deletedExpenses = await models.Expenses.deleteMany({
-        pipeline: deletedPipeline._id,
-      });
-      res.json({
-        pipeline: deletedPipeline,
-        meals: deletedMeals,
-        expenses: deletedExpenses,
-      });
-    } catch (error) {}
+      res.json(updatedPipeline);
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
   }
 
-  async deletePipeLineById(req, res, nex) {
+  async deletePipeLineById(req, res, next) {
     try {
       const deletedPipeline = await models.Pipeline.findByIdAndDelete(
         req.params.id
