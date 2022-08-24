@@ -20,15 +20,18 @@ class Meal {
       pipelineId,
       user: { _id: userId },
       newAmount,
+      key
     } = value;
     const result = await services.Meal.changeUserDepositAmount(
       pipelineId,
       userId,
+      key,
       newAmount
     );
     socket.broadcast.emit('changeUserClient', {
       ...value,
       updatedData: result,
+      key
     });
   }
 

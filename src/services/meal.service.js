@@ -2,9 +2,8 @@ import models from "../models";
 import CRUD from "./crud.service";
 
 class MealService extends CRUD {
-
-  constructor(){
-    super(models.Meal)
+  constructor() {
+    super(models.Meal);
   }
 
   changeMeal = async (id, updateValue) => {
@@ -14,13 +13,14 @@ class MealService extends CRUD {
     return updatedData;
   };
 
-  changeUserDepositAmount = async (id, userId, depositAmount) => {
+  changeUserDepositAmount = async (id, userId, key, amount) => {
+    const targetKey = `users.$.${key}`;
     const data = await models.Pipeline.findOneAndUpdate(
       {
         _id: id,
         "users._id": userId,
       },
-      { "users.$.depositAmount": depositAmount },
+      { [targetKey]: amount },
       {
         new: true,
       }
