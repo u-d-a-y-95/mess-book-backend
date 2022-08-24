@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import userModel from "./user.model";
 
-const pipelineSchema = new mongoose.Schema(
+export const pipelineSchema = new mongoose.Schema(
   {
     accountId: {
       type: mongoose.Types.ObjectId,

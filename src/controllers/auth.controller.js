@@ -30,6 +30,7 @@ class AuthController {
         token,
       });
     } catch (error) {
+      console.log(error)
       return next(CustomError.InternalServerError(error));
     }
   }

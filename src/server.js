@@ -22,7 +22,7 @@ const server = http.createServer(app);
 server.listen(process.env.PORT || 4000, () => {
   console.log("server is running");
 });
-const io = new Server(server, {
+export const io = new Server(server, {
   cors: {
     origin: process.env.CLIENT_BASE_URL || "*",
     methods: ["GET", "POST"],

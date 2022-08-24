@@ -105,6 +105,20 @@ class MealController {
     } catch (error) {}
   }
 
+  async getUsersFromPipelineById(req, res, next) {
+    try {
+      const { accountId } = req.user;
+      const { id: _id } = req.params;
+      const result = await services.Pipeline.getUsersFromPipelineById({
+        accountId,
+        _id,
+      });
+
+      res.status(200).json(result);
+    } catch (error) {
+      res.json(error);
+    }
+  }
   async getPipelineById(req, res, next) {
     try {
       const { accountId } = req.user;
@@ -119,35 +133,35 @@ class MealController {
       res.json(error);
     }
   }
-  // async getPipelineById(req, res, next) {
-  //   try {
-  //     const result = await models.Pipeline.findById(req.params.id)
-  //       .populate({
-  //         path: "meals",
-  //         model: "Meals",
-  //         populate: {
-  //           path: "user",
-  //           model: "Users",
-  //           select: { password: 0 },
-  //         },
-  //       })
-  //       .populate({
-  //         path: "users",
-  //         model: "Users",
-  //         populate: {
-  //           path: "user",
-  //           model: "Users",
-  //         },
-  //       })
-  //       .populate({
-  //         path: "expenses",
-  //         model: "Expenses",
-  //       });
-  //     res.status(200).json(result);
-  //   } catch (error) {
-  //     res.json(error);
-  //   }
-  // }
+  async getPipelineById(req, res, next) {
+    try {
+      const result = await models.Pipeline.findById(req.params.id)
+        .populate({
+          path: "meals",
+          model: "Meals",
+          populate: {
+            path: "user",
+            model: "Users",
+            select: { password: 0 },
+          },
+        })
+        .populate({
+          path: "users",
+          model: "Users",
+          populate: {
+            path: "user",
+            model: "Users",
+          },
+        })
+        .populate({
+          path: "expenses",
+          model: "Expenses",
+        });
+      res.status(200).json(result);
+    } catch (error) {
+      res.json(error);
+    }
+  }
 }
 
 export default new MealController();

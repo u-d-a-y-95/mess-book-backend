@@ -50,8 +50,16 @@ const userUpdateDto = zod
     mobile: obj.mobile,
     displayName: obj.displayName,
   }));
+const changeUserRoleDto = zod
+  .object({
+    role: zod.enum(["MODERATOR", "GENERAL"]),
+  })
+  .transform((obj) => ({
+    role: obj.role,
+  }));
 
 export default {
   userCreateDto,
   userUpdateDto,
+  changeUserRoleDto
 };

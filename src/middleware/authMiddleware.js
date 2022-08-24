@@ -1,7 +1,7 @@
 import CustomError from "../utils/CustomError";
 import { isVerify } from "../utils/jwt";
 
-export default async function (req, res, next) {
+export const AuthenticationMiddleware = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
     if (!authorization) {
@@ -14,4 +14,18 @@ export default async function (req, res, next) {
   } catch (error) {
     next(CustomError.InternalServerError(error));
   }
-}
+};
+
+export const AuthorizationMiddleware = (roles) => {
+  return async (req, res, next) => {
+    try {
+      if (roles.includes(req.user.role)) {
+        next();
+      } else {
+        return next(CustomError.UnauthorizedError());
+      }
+    } catch (error) {
+      next(CustomError.InternalServerError(error));
+    }
+  };
+};

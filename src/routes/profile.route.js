@@ -9,9 +9,8 @@ router.get("/:id", controller.Profile.getUserById);
 
 router.patch(
   "/:id",
-//   payloadValidator(dto.User.userUpdateDto),
+  //   payloadValidator(dto.User.userUpdateDto),
   controller.Profile.updateUserById
 );
-
 
 export default router;

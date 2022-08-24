@@ -1,4 +1,5 @@
 import services from "../services";
+import { socketUsers } from "../socket";
 import { getBcryptValue } from "../utils/bcrypt";
 import CustomError from "../utils/CustomError";
 class UserController {
@@ -98,9 +99,10 @@ class UserController {
         }
       );
       const { password, ...rest } = result._doc;
+      req.io.to(socketUsers[rest._id]).emit("changeProfile", rest);
       res.status(200).json(rest);
     } catch (error) {
-      next(error);
+      console.next(error);
     }
   }
   async setAdminById(req, res, next) {
