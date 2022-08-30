@@ -1,11 +1,16 @@
 import models from "../models";
-import { getBcryptValue } from "../utils/bcrypt";
-import CustomError from "../utils/CustomError";
 import CRUD from "./crud.service";
+import fs from "fs/promises";
+import path from "path";
 class User extends CRUD {
   constructor() {
     super(models.User);
   }
+
+  unlinkProfileImage = (profileImage) => {
+    const filePath = path.join(__dirname, "../uploads", profileImage);
+    fs.unlink(filePath);
+  };
 }
 
 export default new User();

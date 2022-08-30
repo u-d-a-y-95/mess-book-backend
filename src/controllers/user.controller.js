@@ -105,6 +105,7 @@ class UserController {
       console.next(error);
     }
   }
+
   async setAdminById(req, res, next) {
     try {
       const result = await services.User.updateUserById(
@@ -122,9 +123,12 @@ class UserController {
       const { accountId } = req.user;
       const { id: _id } = req.params;
       const result = await services.User.deleteOne(
-        { accountId, _id },
+        { accountId, _id, role: { $nin: ["ADMIN"] } },
         { select: { password: 0 } }
       );
+      if (result.profileImage) {
+        services.User.unlinkProfileImage(result.profileImage);
+      }
       res.status(200).json(result);
     } catch (error) {
       next(error);

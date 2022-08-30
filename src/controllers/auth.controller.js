@@ -12,10 +12,13 @@ class AuthController {
       if (!account) {
         return next(CustomError.UnauthorizedError());
       }
-      const user = await services.User.getOne({
-        accountId: account._id,
-        mobile,
-      });
+      const user = await services.User.getOne(
+        {
+          accountId: account._id,
+          mobile,
+        },
+        { select: {} }
+      );
       if (!user) {
         return next(CustomError.UnauthorizedError());
       }
@@ -30,7 +33,6 @@ class AuthController {
         token,
       });
     } catch (error) {
-      console.log(error)
       return next(CustomError.InternalServerError(error));
     }
   }

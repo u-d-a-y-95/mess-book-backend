@@ -2,6 +2,7 @@ import express from "express";
 import apiRoute from "./routes";
 import errorMiddleware from "./middleware/errorMiddleware";
 import cors from "cors";
+import path from "path"
 import { io } from "./server";
 
 const app = express();
@@ -13,6 +14,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use("/api", apiRoute);
+app.use('/static', express.static(path.join(__dirname,'uploads')))
 
 app.get("/", (req, res) => {
   res.status(200).json("api is running");

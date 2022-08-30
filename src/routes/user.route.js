@@ -4,6 +4,7 @@ import dto from "../dtos";
 import controller from "../controllers";
 import { AuthorizationMiddleware } from "../middleware/authMiddleware";
 
+
 const router = express.Router();
 
 router.get("/", controller.User.getAllUsers);
@@ -35,6 +36,8 @@ router.patch(
   payloadValidator(dto.User.changeUserRoleDto),
   controller.User.updateUserById
 );
+
+
 
 router.patch("/admin/:id", controller.User.setAdminById);
 

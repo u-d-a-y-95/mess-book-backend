@@ -43,7 +43,7 @@ class CRUD {
   async getOne(filter, other = null) {
     const _other = Object.assign(dataFilter, other);
     try {
-      return this.model.findOne(filter).select(_other.select);
+      return this.model.findOne(filter).select(_other.select).exec();
     } catch (error) {
       throw error;
     }

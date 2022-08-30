@@ -84,7 +84,6 @@ class MealController {
       );
       res.json(updatedPipeline);
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }
