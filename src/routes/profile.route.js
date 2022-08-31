@@ -2,10 +2,13 @@ import express from "express";
 import controller from "../controllers";
 import multer from "multer";
 import path from "path";
-import fs from "fs/promises";
+import fs, { mkdirSync } from "fs";
 const storage = multer.diskStorage({
   destination: async function (req, file, cb) {
     const destinationPath = path.join(__dirname, "../uploads");
+    if(!fs.existsSync(destinationPath)){
+      fs.mkdirSync(destinationPath)
+    }
     cb(null, destinationPath);
   },
   filename: function (req, file, cb) {

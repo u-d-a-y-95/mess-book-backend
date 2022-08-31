@@ -7,11 +7,11 @@ class User extends CRUD {
     super(models.User);
   }
 
-  unlinkProfileImage = (profileImage) => {
+  unlinkProfileImage = async (profileImage) => {
     const filePath = path.join(__dirname, "../uploads", profileImage);
     try {
-      fs.access(filePath);
-      fs.unlink(filePath);
+      await fs.access(filePath);
+      await fs.unlink(filePath);
     } catch (error) {}
   };
 }
