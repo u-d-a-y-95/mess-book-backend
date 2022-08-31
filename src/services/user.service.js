@@ -9,7 +9,10 @@ class User extends CRUD {
 
   unlinkProfileImage = (profileImage) => {
     const filePath = path.join(__dirname, "../uploads", profileImage);
-    fs.unlink(filePath);
+    try {
+      fs.access(filePath);
+      fs.unlink(filePath);
+    } catch (error) {}
   };
 }
 

@@ -1,14 +1,17 @@
 import express from "express";
 import controller from "../controllers";
 import multer from "multer";
-
+import path from "path";
+import fs from "fs/promises";
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./src/uploads/");
+  destination: async function (req, file, cb) {
+    const destinationPath = path.join(__dirname, "../uploads");
+    cb(null, destinationPath);
   },
   filename: function (req, file, cb) {
-    const extension = file.originalname.split(".").pop()
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9) +"."+extension;
+    const extension = file.originalname.split(".").pop();
+    const uniqueSuffix =
+      Date.now() + "-" + Math.round(Math.random() * 1e9) + "." + extension;
     cb(null, file.fieldname + "-" + uniqueSuffix);
   },
 });
