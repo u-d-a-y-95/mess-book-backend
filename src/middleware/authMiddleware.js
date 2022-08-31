@@ -22,6 +22,11 @@ export const AuthorizationMiddleware = (roles) => {
       if (roles.includes(req.user.role)) {
         next();
       } else {
+        if (roles.includes("OWN")) {
+          if (req.params.id === req.user._id) {
+            return next();
+          }
+        }
         return next(CustomError.UnauthorizedError());
       }
     } catch (error) {

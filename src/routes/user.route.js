@@ -26,7 +26,7 @@ router.post(
 
 router.patch(
   "/:id",
-  AuthorizationMiddleware(["ADMIN"]),
+  AuthorizationMiddleware(["ADMIN","OWN"]),
   payloadValidator(dto.User.userUpdateDto),
   controller.User.updateUserById
 );
