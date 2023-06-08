@@ -16,6 +16,7 @@ class MealController {
           endDate: line.endDate,
           totalMeals: line.meals.reduce((acc, item) => acc + item.noOfMeal, 0),
           users: line.users,
+          closed: line.closed,
         }))
       );
     } catch (error) {
@@ -107,6 +108,21 @@ class MealController {
     } catch (error) {}
   }
 
+  async changePipeLineStatusById(req, res, next) {
+    try {
+      const { accountId } = req.user;
+      const { id: _id } = req.params;
+      const { status } = req.body;
+      const updatedPipeline = await services.Pipeline.changePipeLineStatusById(
+        { accountId, _id },
+        status
+      );
+      res.json(updatedPipeline);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async getUsersFromPipelineById(req, res, next) {
     try {
       const { accountId } = req.user;
@@ -126,6 +142,20 @@ class MealController {
       const { accountId } = req.user;
       const { id: _id } = req.params;
       const result = await services.Pipeline.getPipelineById({
+        accountId,
+        _id,
+      });
+
+      res.status(200).json(result);
+    } catch (error) {
+      res.json(error);
+    }
+  }
+  async getPipelineSummaryById(req, res, next) {
+    try {
+      const { accountId } = req.user;
+      const { id: _id } = req.params;
+      const result = await services.Pipeline.getPipelineSummaryById({
         accountId,
         _id,
       });

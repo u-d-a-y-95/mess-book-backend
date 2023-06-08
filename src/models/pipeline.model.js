@@ -40,6 +40,10 @@ export const pipelineSchema = new mongoose.Schema(
         ref: "Expenses",
       },
     ],
+    closed: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
