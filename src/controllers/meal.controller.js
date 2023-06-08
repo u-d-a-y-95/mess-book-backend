@@ -5,20 +5,25 @@ import services from "../services";
 class MealController {
   constructor() {}
   async getPipeline(req, res, next) {
+    const { skip = 0, limit = 5 } = req.query;
     try {
       const result = await models.Pipeline.find()
         .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
         .populate("meals");
-      res.json(
-        result.map((line) => ({
+      const count = await models.Pipeline.count();
+      res.json({
+        count,
+        data: result.map((line) => ({
           id: line._id,
           startDate: line.startDate,
           endDate: line.endDate,
           totalMeals: line.meals.reduce((acc, item) => acc + item.noOfMeal, 0),
           users: line.users,
           closed: line.closed,
-        }))
-      );
+        })),
+      });
     } catch (error) {
       res.json(error);
     }
