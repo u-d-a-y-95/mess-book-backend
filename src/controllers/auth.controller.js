@@ -28,11 +28,13 @@ class AuthController {
       }
       const { password: _password, ...rest } = user._doc;
       const token = await getJWT(rest);
+      res.cookie("auth", token);
       res.status(200).json({
         ...rest,
         token,
       });
     } catch (error) {
+      console.log(error);
       return next(CustomError.InternalServerError(error));
     }
   }
